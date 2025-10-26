@@ -1,0 +1,19 @@
+flowchart TD
+    %% Root
+    style A fill:#6630d4,stroke:#6630d4,stroke-width:2px,color:#ffffff
+    A[src/] --> E[main/]
+    
+    %% Main Components
+    E --> E1[controllers/]
+    E --> E2[routes/]
+    E --> E3[presenters/]
+    E --> E4[middleware/]
+    E --> E5[cli/]
+
+    %% Main Layer - Purple
+    style E fill:#d4c5f9,stroke:#6630d4,stroke-width:3px,color:#6630d4
+    style E1 fill:#8b7ab8,stroke:#6630d4,stroke-width:2px,color:#ffffff
+    style E2 fill:#8b7ab8,stroke:#6630d4,stroke-width:2px,color:#ffffff
+    style E3 fill:#8b7ab8,stroke:#6630d4,stroke-width:2px,color:#ffffff
+    style E4 fill:#8b7ab8,stroke:#6630d4,stroke-width:2px,color:#ffffff
+    style E5 fill:#8b7ab8,stroke:#6630d4,stroke-width:2px,color:#ffffff

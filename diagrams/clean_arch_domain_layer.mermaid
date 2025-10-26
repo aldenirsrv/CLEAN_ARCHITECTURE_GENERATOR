@@ -1,0 +1,15 @@
+flowchart TD
+    %% Root
+    style A fill:#6630d4,stroke:#6630d4,stroke-width:2px,color:#ffffff
+    A[src/] --> B[domain/]
+    
+    %% Domain Components
+    B --> B1[entities/]
+    B --> B2[services/]
+    B --> B3[value_objects/]
+
+    %% Styling
+    style B fill:#fce0a9,stroke:#db865c,stroke-width:3px,color:#db865c
+    style B1 fill:#db865c,stroke:#db865c,stroke-width:2px,color:#ffffff
+    style B2 fill:#db865c,stroke:#db865c,stroke-width:2px,color:#ffffff
+    style B3 fill:#db865c,stroke:#db865c,stroke-width:2px,color:#ffffff

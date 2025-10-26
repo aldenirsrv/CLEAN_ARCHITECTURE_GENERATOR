@@ -1,0 +1,23 @@
+graph LR
+    subgraph Legend ["📋 Clean Architecture Layers"]
+        direction TB
+        LEG1["🟠 Domain Layer<br/>Core Business Logic<br/>Entities, Services, Value Objects"]
+        LEG2["🔴 Application Layer<br/>Use Cases & Business Rules<br/>Interfaces, DTOs"]
+        LEG3["🔵 Infrastructure Layer<br/>External Concerns<br/>Repositories, APIs, Config"]
+        LEG4["🟣 Main Layer<br/>Entry Points<br/>API, CLI, UI"]
+    end
+    
+    %% Arrow showing dependency direction
+    LEG4 --> LEG3
+    LEG3 --> LEG2
+    LEG2 --> LEG1
+    
+    note["Dependencies flow inward<br/>Outer layers depend on inner layers<br/>Inner layers are independent"]
+
+    %% Legend Styling
+    style Legend fill:#f9f9f9,stroke:#333,stroke-width:3px
+    style LEG1 fill:#db865c,stroke:#db865c,stroke-width:2px,color:#ffffff
+    style LEG2 fill:#d1639a,stroke:#d1639a,stroke-width:2px,color:#ffffff
+    style LEG3 fill:#2cb3cb,stroke:#2cb3cb,stroke-width:2px,color:#ffffff
+    style LEG4 fill:#6630d4,stroke:#6630d4,stroke-width:2px,color:#ffffff
+    style note fill:#ffffcc,stroke:#999,stroke-width:1px,color:#333

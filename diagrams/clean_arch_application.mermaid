@@ -1,0 +1,15 @@
+flowchart TD
+    %% Root
+    style A fill:#6630d4,stroke:#6630d4,stroke-width:2px,color:#ffffff
+    A[src/] --> C[application/]
+    
+    %% Application Components
+    C --> C1[interfaces/]
+    C --> C2[use_cases/]
+    C --> C3[dtos/]
+
+    %% Application Layer Style
+    style C fill:#fca9ce,stroke:#d1639a,stroke-width:3px,color:#d1639a
+    style C1 fill:#d1639a,stroke:#d1639a,stroke-width:2px,color:#ffffff
+    style C2 fill:#d1639a,stroke:#d1639a,stroke-width:2px,color:#ffffff
+    style C3 fill:#d1639a,stroke:#d1639a,stroke-width:2px,color:#ffffff

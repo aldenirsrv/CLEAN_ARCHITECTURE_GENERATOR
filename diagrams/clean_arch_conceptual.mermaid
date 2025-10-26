@@ -1,0 +1,25 @@
+graph TB
+    subgraph "🟣 Main Layer"
+        M[Controllers, Routes, CLI]
+    end
+    
+    subgraph "🔵 Infrastructure Layer"
+        I[Repositories, APIs, Config]
+    end
+    
+    subgraph "🔴 Application Layer"
+        A[Use Cases, Interfaces, DTOs]
+    end
+    
+    subgraph "🟠 Domain Layer"
+        D[Entities, Services, Value Objects]
+    end
+    
+    M -.->|depends on| I
+    I -.->|depends on| A
+    A -.->|depends on| D
+    
+    style M fill:#d4c5f9,stroke:#6630d4,stroke-width:3px
+    style I fill:#aaebfc,stroke:#2cb3cb,stroke-width:3px
+    style A fill:#fca9ce,stroke:#d1639a,stroke-width:3px
+    style D fill:#fce0a9,stroke:#db865c,stroke-width:3px

@@ -1,0 +1,68 @@
+graph TB
+    %% Main Layer - Entry Points
+    subgraph Main [Main Layer]
+        direction LR
+        EntryPoint["Entry Point (API/CLI/UI)"]
+    end
+
+    %% Infrastructure Layer
+    subgraph Infrastructure [Infrastructure Layer]
+        Repositories[Repositories]
+        External[External APIs]
+        Config[Config]
+    end
+
+    %% Application Layer
+    subgraph Application [Application Layer]
+        Interfaces[Interfaces]
+        UseCases[Use Cases]
+        DTOs[DTOs]
+    end
+
+    %% Domain Layer - Core
+    subgraph Domain [Domain Layer]
+        Entities[Entities]
+        Services[Services]
+        ValueObjects[Value Objects]
+    end
+    
+    %% Dependencies flow from outer to inner layers
+    EntryPoint --> Repositories
+    EntryPoint --> External
+    EntryPoint --> Config
+    
+    Repositories --> UseCases
+    External --> UseCases
+    Config --> UseCases
+    
+    UseCases --> Interfaces
+    UseCases --> DTOs
+    
+    Interfaces --> Entities
+    Interfaces --> Services
+    
+    Entities --> ValueObjects
+    Services --> ValueObjects
+    Services --> Entities
+
+    %% Domain Layer Style
+    style Domain fill:#fce0a9,stroke:#db865c,stroke-width:3px,color:#db865c
+    style Entities fill:#db865c,stroke:#db865c,stroke-width:2px,color:#ffffff
+    style Services fill:#db865c,stroke:#db865c,stroke-width:2px,color:#ffffff
+    style ValueObjects fill:#db865c,stroke:#db865c,stroke-width:2px,color:#ffffff
+
+    %% Application Layer Style (Pink/Red)
+    style Application fill:#fca9ce,stroke:#d1639a,stroke-width:3px,color:#d1639a
+    style Interfaces fill:#d1639a,stroke:#d1639a,stroke-width:2px,color:#ffffff
+    style UseCases fill:#d1639a,stroke:#d1639a,stroke-width:2px,color:#ffffff
+    style DTOs fill:#d1639a,stroke:#d1639a,stroke-width:2px,color:#ffffff
+
+    %% Infrastructure Layer Style
+    style Infrastructure fill:#aaebfc,stroke:#2cb3cb,stroke-width:3px,color:#2cb3cb
+    style Repositories fill:#2cb3cb,stroke:#2cb3cb,stroke-width:2px,color:#ffffff
+    style External fill:#2cb3cb,stroke:#2cb3cb,stroke-width:2px,color:#ffffff
+    style Config fill:#2cb3cb,stroke:#2cb3cb,stroke-width:2px,color:#ffffff
+
+    %% Main Layer Style
+    style Main fill:#a9aefc,stroke:#6630d4,stroke-width:3px,color:#6630d4
+    style EntryPoint fill:#6630d4,stroke:#6630d4,stroke-width:2px,color:#ffffff

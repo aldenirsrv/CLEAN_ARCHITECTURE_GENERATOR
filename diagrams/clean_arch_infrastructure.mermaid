@@ -1,0 +1,15 @@
+flowchart TD
+    %% Root
+    style A fill:#6630d4,stroke:#6630d4,stroke-width:2px,color:#ffffff
+    A[src/] --> D[infrastructure/]
+    
+    %% Infrastructure Components
+    D --> D1[repositories/]
+    D --> D2[external/]
+    D --> D3[config/]
+
+    %% Infrastructure Layer Style
+    style D fill:#aaebfc,stroke:#2cb3cb,stroke-width:3px,color:#2cb3cb
+    style D1 fill:#2cb3cb,stroke:#2cb3cb,stroke-width:2px,color:#ffffff
+    style D2 fill:#2cb3cb,stroke:#2cb3cb,stroke-width:2px,color:#ffffff
+    style D3 fill:#2cb3cb,stroke:#2cb3cb,stroke-width:2px,color:#ffffff

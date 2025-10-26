@@ -1,0 +1,65 @@
+flowchart TB
+    %% Root
+    A[src/]
+    
+    %% Layers from outer to inner
+    A --> E[main/]
+    A --> D[infrastructure/]
+    A --> C[application/]
+    A --> B[domain/]
+
+    %% Main Components
+    E --> E1[controllers/]
+    E --> E2[routes/]
+    E --> E3[presenters/]
+    E --> E4[middleware/]
+    E --> E5[cli/]
+
+    %% Infrastructure Components
+    D --> D1[repositories/]
+    D --> D2[external/]
+    D --> D3[config/]
+
+    %% Application Components
+    C --> C1[interfaces/]
+    C --> C2[use_cases/]
+    C --> C3[dtos/]
+
+    %% Domain Components
+    B --> B1[entities/]
+    B --> B2[services/]
+    B --> B3[value_objects/]
+
+    %% Dependency Flow
+    E -.->|depends on| D
+    D -.->|depends on| C
+    C -.->|depends on| B
+
+    %% Root Style
+    style A fill:#6630d4,stroke:#6630d4,stroke-width:2px,color:#ffffff
+
+    %% Main Layer - Purple (Outermost)
+    style E fill:#d4c5f9,stroke:#6630d4,stroke-width:3px,color:#6630d4
+    style E1 fill:#8b7ab8,stroke:#6630d4,stroke-width:2px,color:#ffffff
+    style E2 fill:#8b7ab8,stroke:#6630d4,stroke-width:2px,color:#ffffff
+    style E3 fill:#8b7ab8,stroke:#6630d4,stroke-width:2px,color:#ffffff
+    style E4 fill:#8b7ab8,stroke:#6630d4,stroke-width:2px,color:#ffffff
+    style E5 fill:#8b7ab8,stroke:#6630d4,stroke-width:2px,color:#ffffff
+
+    %% Infrastructure Layer - Cyan
+    style D fill:#aaebfc,stroke:#2cb3cb,stroke-width:3px,color:#2cb3cb
+    style D1 fill:#2cb3cb,stroke:#2cb3cb,stroke-width:2px,color:#ffffff
+    style D2 fill:#2cb3cb,stroke:#2cb3cb,stroke-width:2px,color:#ffffff
+    style D3 fill:#2cb3cb,stroke:#2cb3cb,stroke-width:2px,color:#ffffff
+
+    %% Application Layer - Pink
+    style C fill:#fca9ce,stroke:#d1639a,stroke-width:3px,color:#d1639a
+    style C1 fill:#d1639a,stroke:#d1639a,stroke-width:2px,color:#ffffff
+    style C2 fill:#d1639a,stroke:#d1639a,stroke-width:2px,color:#ffffff
+    style C3 fill:#d1639a,stroke:#d1639a,stroke-width:2px,color:#ffffff
+
+    %% Domain Layer - Orange (Innermost/Core)
+    style B fill:#fce0a9,stroke:#db865c,stroke-width:3px,color:#db865c
+    style B1 fill:#db865c,stroke:#db865c,stroke-width:2px,color:#ffffff
+    style B2 fill:#db865c,stroke:#db865c,stroke-width:2px,color:#ffffff
+    style B3 fill:#db865c,stroke:#db865c,stroke-width:2px,color:#ffffff
