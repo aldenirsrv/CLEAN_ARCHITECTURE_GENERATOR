@@ -1,5 +1,3 @@
-Aqui está o script refatorado com melhorias e mais funcionalidades:
-bash#!/bin/bash
 # =========================================================
 # Setup Git commit-msg hook to enforce Conventional Commits
 # =========================================================
