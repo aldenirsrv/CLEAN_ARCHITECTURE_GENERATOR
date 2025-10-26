@@ -1,230 +1,100 @@
-Aqui está o script refatorado com melhorias e mais funcionalidades:
-bash#!/bin/bash
-# =========================================================
-# Setup Git commit-msg hook to enforce Conventional Commits
-# =========================================================
-
-set -e
-
-HOOK_DIR=".git/hooks"
-HOOK_FILE="$HOOK_DIR/commit-msg"
+Aqui está a versão com todos os comentários em inglês:
+bash# ═══════════════════════════════════════════════════════════
+# Conventional Commits Setup
+# ═══════════════════════════════════════════════════════════
 
 echo ""
-echo "╔════════════════════════════════════════════════════════╗"
-echo "║     🚀 Conventional Commits Hook Installer            ║"
-echo "╚════════════════════════════════════════════════════════╝"
+echo "# ─────────────────────────────────────────────────────"
+echo "# Ask about Conventional Commits"
+echo "# ─────────────────────────────────────────────────────"
 echo ""
 
-# =========================================================
-# Validate Git Repository
-# =========================================================
-if [ ! -d ".git" ]; then
-  echo "❌ Error: Not a Git repository"
-  echo "   No .git directory found in: $(pwd)"
-  echo ""
-  echo "💡 Solution: Initialize Git first"
-  echo "   Run: git init"
-  exit 1
+# Check if Git repository exists in current directory
+if [[ ! -d ".git" ]]; then
+    echo "⚠️  No Git repository found in current directory."
+    echo ""
+    read -p "Do you want to initialize a Git repository? (y/n): " init_git
+    
+    # If user wants to initialize Git, do it
+    if [[ "$init_git" == "y" || "$init_git" == "Y" ]]; then
+        git init
+        echo "✅ Git repository initialized!"
+        echo ""
+    else
+        # Skip Conventional Commits if user doesn't want Git
+        echo "ℹ️  Skipping Conventional Commits (Git repository required)."
+        echo ""
+        # Continue to next part of setup without exiting
+        return 0 2>/dev/null || :
+    fi
+else
+    # Git repository already exists
+    echo "✓ Git repository detected"
+    echo ""
 fi
 
-echo "✓ Git repository detected"
-echo ""
+# Ask user if they want to activate Conventional Commits
+read -p "Do you want to activate Conventional Commits for this project? (y/n): " choice
 
-# =========================================================
-# Check for Existing Hook
-# =========================================================
-if [ -f "$HOOK_FILE" ]; then
-  echo "⚠️  Warning: commit-msg hook already exists"
-  echo ""
-  read -p "Overwrite existing hook? (y/n): " overwrite
-  
-  if [[ ! "$overwrite" =~ ^[Yy]$ ]]; then
-    echo "ℹ️  Installation cancelled."
-    exit 0
-  fi
-  
-  # Backup existing hook
-  BACKUP_FILE="$HOOK_FILE.backup.$(date +%Y%m%d_%H%M%S)"
-  cp "$HOOK_FILE" "$BACKUP_FILE"
-  echo "✓ Existing hook backed up to: $BACKUP_FILE"
-  echo ""
+if [[ "$choice" == "y" || "$choice" == "Y" ]]; then
+    echo ""
+    echo "📥 Fetching Conventional Commits setup from GitHub..."
+    
+    # GitHub raw URL for the setup script
+    GITHUB_URL="https://raw.githubusercontent.com/aldenirsrv/CLEAN_ARCHITECTURE_GENERATOR/main/scripts/setup_conventional_commits.sh"
+    
+    # Try to download and execute script from GitHub
+    if curl -fsSL "$GITHUB_URL" | bash; then
+        echo "✅ Conventional Commits hook installed!"
+    else
+        # If download fails, show message but continue setup process
+        echo "⚠️  Failed to download from GitHub."
+        echo "    You can install it manually later by running:"
+        echo "    curl -fsSL \"$GITHUB_URL\" | bash"
+        echo ""
+        echo "ℹ️  Continuing setup process..."
+    fi
+else
+    # User chose not to activate Conventional Commits
+    echo "ℹ️  Skipping Conventional Commits setup."
 fi
 
-# =========================================================
-# Create Hook Directory
-# =========================================================
-mkdir -p "$HOOK_DIR"
-
-# =========================================================
-# Install commit-msg Hook
-# =========================================================
-echo "📝 Installing commit-msg hook..."
-
-cat > "$HOOK_FILE" <<'HOOK'
-#!/bin/sh
-# =========================================================
-# Enforce Conventional Commit Style
-#
-# Format: <type>(<scope>): <description>
-#
-# Required Format:
-#   <type>: <description>                    ✅ Valid
-#   <type>(<scope>): <description>           ✅ Valid
-#
-# Types (required):
-#   feat     → A new feature
-#   fix      → A bug fix
-#   docs     → Documentation only changes
-#   style    → Changes that do not affect code meaning
-#              (formatting, missing semi-colons, etc.)
-#   refactor → Code change that neither fixes a bug nor adds a feature
-#   perf     → Performance improvements
-#   test     → Adding or correcting tests
-#   chore    → Maintenance tasks (build, tooling, configs, etc.)
-#   ci       → CI/CD configuration changes
-#   build    → Build system or external dependencies
-#   revert   → Revert a previous commit
-#
-# Special Keywords:
-#   BREAKING CHANGE: in body or footer → Major version bump
-#   ! after type/scope → Breaking change indicator
-#
-# Examples:
-#   feat(auth): add OAuth2 integration
-#   fix(api): handle null pointer exception
-#   docs(readme): update installation guide
-#   feat!: remove deprecated endpoint
-#   fix(ui): button alignment on mobile
-#
-# =========================================================
-
-commit_msg_file=$1
-commit_msg=$(cat "$commit_msg_file")
-
-# Skip merge commits
-if echo "$commit_msg" | grep -qE "^Merge (branch|pull request)"; then
-  exit 0
-fi
-
-# Conventional Commits regex (with optional breaking change indicator)
-regex="^(feat|fix|docs|style|refactor|perf|test|chore|ci|build|revert)(\([a-z0-9_-]+\))?!?: .+"
-
-if ! echo "$commit_msg" | grep -qE "$regex"; then
-  echo ""
-  echo "╔════════════════════════════════════════════════════════╗"
-  echo "║  ❌ Commit Rejected - Invalid Format                  ║"
-  echo "╚════════════════════════════════════════════════════════╝"
-  echo ""
-  echo "Your commit message:"
-  echo "  \"$commit_msg\""
-  echo ""
-  echo "Required format:"
-  echo "  <type>(<scope>): <description>"
-  echo ""
-  echo "Valid types:"
-  echo "  feat, fix, docs, style, refactor, perf, test, chore, ci, build, revert"
-  echo ""
-  echo "✅ Valid examples:"
-  echo "  feat(auth): add login validation"
-  echo "  fix(api): handle null values in response"
-  echo "  docs(readme): update setup instructions"
-  echo "  style(css): fix button alignment"
-  echo "  refactor(core): simplify data pipeline"
-  echo "  perf(query): optimize DB lookup speed"
-  echo "  test(orders): add integration tests"
-  echo "  chore(deps): update dependencies"
-  echo "  feat!: breaking change - remove old API"
-  echo ""
-  echo "❌ Invalid examples:"
-  echo "  Added new feature"
-  echo "  fixed bug"
-  echo "  Update README"
-  echo ""
-  echo "📚 Learn more: https://www.conventionalcommits.org"
-  echo ""
-  exit 1
-fi
-
-# Optional: Check for minimum description length
-description=$(echo "$commit_msg" | sed -E 's/^[^:]+: //')
-if [ ${#description} -lt 10 ]; then
-  echo ""
-  echo "⚠️  Warning: Commit description is too short (minimum 10 characters)"
-  echo "   Description: \"$description\""
-  echo ""
-  exit 1
-fi
-
-# Success message
-echo "✅ Commit message validated successfully!"
-exit 0
-HOOK
-
-# =========================================================
-# Make Hook Executable
-# =========================================================
-chmod +x "$HOOK_FILE"
-
-echo "✅ Conventional Commits hook installed successfully!"
-echo ""
-echo "📍 Hook location: $HOOK_FILE"
 echo ""
 
-# =========================================================
-# Installation Summary
-# =========================================================
-echo "╔════════════════════════════════════════════════════════╗"
-echo "║              🎉 Installation Complete!                ║"
-echo "╚════════════════════════════════════════════════════════╝"
-echo ""
-echo "Your commits will now be validated automatically."
-echo ""
-echo "📋 Quick Reference:"
-echo ""
-echo "  ✅ Valid commit formats:"
-echo "     git commit -m \"feat(api): add new endpoint\""
-echo "     git commit -m \"fix(auth): resolve login bug\""
-echo "     git commit -m \"docs: update README\""
-echo "     git commit -m \"feat!: breaking API change\""
-echo ""
-echo "  ❌ Invalid formats (will be rejected):"
-echo "     git commit -m \"added new endpoint\""
-echo "     git commit -m \"fixed bug\""
-echo "     git commit -m \"Update README\""
-echo ""
-echo "💡 Tips:"
-echo "   • Scope is optional: feat: description"
-echo "   • Use ! for breaking changes: feat!: description"
-echo "   • Keep descriptions clear and concise"
-echo "   • Use present tense: 'add' not 'added'"
-echo ""
-echo "📚 Full specification: https://www.conventionalcommits.org"
-echo ""
 
-# =========================================================
-# Optional: Test the Hook
-# =========================================================
-read -p "Would you like to test the hook now? (y/n): " test_hook
 
-if [[ "$test_hook" =~ ^[Yy]$ ]]; then
-  echo ""
-  echo "🧪 Testing hook with sample commits..."
-  echo ""
-  
-  # Test valid commit
-  echo "feat(test): sample commit for testing" | "$HOOK_FILE" /dev/stdin && \
-    echo "  ✅ Valid format accepted" || \
-    echo "  ❌ Test failed"
-  
-  echo ""
-  
-  # Test invalid commit
-  echo "Added new feature" | "$HOOK_FILE" /dev/stdin 2>&1 && \
-    echo "  ❌ Invalid format should be rejected" || \
-    echo "  ✅ Invalid format correctly rejected"
-  
-  echo ""
-fi
 
-echo "🎯 Setup complete! Happy committing! 🚀"
-echo ""
+## 🎯 Execution flow:
+
+### Scenary 1: Git already exists
+```
+✓ Git repository detected
+Do you want to activate Conventional Commits? (y/n): y
+→ Install Conventional Commits
+```
+
+### Scenary 2: Git do not exists, user initialize
+```
+⚠️  No Git repository found
+Do you want to initialize a Git repository? (y/n): y
+✅ Git repository initialized!
+
+Do you want to activate Conventional Commits? (y/n): y
+→ Install Conventional Commits
+```
+
+### Scenary 3: Git do not exists, user excuse
+```
+⚠️  No Git repository found
+Do you want to initialize a Git repository? (y/n): n
+ℹ️  Skipping Conventional Commits (Git repository required)
+→ Continua para próxima parte do setup
+```
+
+### Scenary 4: Git already exists, user excuse Conventional Commits
+```
+✓ Git repository detected
+Do you want to activate Conventional Commits? (y/n): n
+ℹ️  Skipping Conventional Commits setup
+→ Continua para próxima parte do setup
+```
