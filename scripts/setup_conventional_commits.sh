@@ -28,11 +28,10 @@ if [[ ! -d ".git" ]]; then
         echo "✅ Git repository initialized!"
         echo ""
     else
-        # Skip Conventional Commits if user doesn't want Git
-        echo "ℹ️  Skipping Conventional Commits (Git repository required)."
+        # Exit if user doesn't want Git - hooks require Git
+        echo "ℹ️  Cannot install Conventional Commits without Git repository."
         echo ""
-        # Continue to next part of setup without exiting
-        return 0 2>/dev/null || :
+        exit 0
     fi
 else
     # Git repository already exists
