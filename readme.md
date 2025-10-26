@@ -5,6 +5,32 @@ This project follows **Clean Architecture** principles, ensuring a codebase that
 ![Clean Architecture Diagram](img/clean_architecture_diagram.jpeg)
 ---
 
+# 🧹 Clean Architecture Generator
+
+A powerful bash script that instantly scaffolds a complete **Clean Architecture** project structure following **SOLID principles** and the **Dependency Rule**.
+
+## ✨ What It Creates
+
+- **🟠 Domain Layer**: Pure business logic with entities, value objects, and domain services
+- **🔴 Application Layer**: Use cases, interfaces (ports), and DTOs
+- **🔵 Infrastructure Layer**: Technical implementations, repositories, and external adapters
+- **🟣 Main Layer**: Controllers, routes, presenters, middleware, and CLI entry points
+- **🧪 Comprehensive Test Structure**: Unit, integration, and E2E test directories
+- **📝 Documented Files**: Every `__init__.py` includes layer-specific comments
+
+## 🎯 Perfect For
+
+- Starting new Python projects with clean architecture
+- Refactoring existing codebases to follow SOLID principles
+- Learning and teaching Clean Architecture concepts
+- Creating maintainable, testable, and scalable applications
+
+## 🚀 One Command Setup
+```bash
+curl -o setup.sh https://raw.githubusercontent.com/aldenirsrv/CLEAN_ARCHITECTURE_GENERATOR/main/scripts/clean_arch_simple.sh && chmod +x setup.sh && ./setup.sh
+```
+No dependencies. Just bash. Works everywhere.
+
 ## 📐 What is Clean Architecture?
 
 Clean Architecture organizes code into concentric layers, similar to *The Onion Architecture*:

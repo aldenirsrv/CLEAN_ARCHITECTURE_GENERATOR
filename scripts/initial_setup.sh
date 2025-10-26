@@ -22,7 +22,7 @@ pip3 install -r requirements.txt
 # Check installation ### Edit this to check for the specific imports you need
 # -----------------------------
 python -m openai --version
-python -c "import yaml, pandas, PyPDF2, requests, dotenv; print('✅ All imports OK')"
+python -c "import dotenv; print('✅ All imports OK')"
 
 # -----------------------------
 # Ask about Conventional Commits
@@ -48,11 +48,11 @@ echo "🚀 Setting up Clean Architecture..."
 read -p "Do you want to initialize CLEAN ARCHITECTURE with SOLID principles? (y/n): " choice_clean
 
 if [[ "$choice_clean" == "y" || "$choice_clean" == "Y" ]]; then
-    if [[ -f "./setup_clean_architecture.sh" ]]; then
-        chmod +x ./setup_clean_architecture.sh
+    if [[ -f "./clean_arch_with_comment.sh" ]]; then
+        chmod +x ./clean_arch_with_comment.sh
         ./setup_clean_architecture.sh
     else
-        echo "⚠️ setup_clean_architecture.sh not found."
+        echo "⚠️ clean_arch_with_comment.sh not found."
     fi
 else
     echo "ℹ️ Skipping Clean Architecture scaffolding."

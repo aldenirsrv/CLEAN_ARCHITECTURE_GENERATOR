@@ -2,15 +2,4 @@
 #  Content Builder Automation
 # -----------------------------
 # Python 3.10+ recommended
-
-
-# ⚙️ YAML Configuration
-PyYAML>=6.0.1
-
-# 🧹 Optional HTML/Text Cleaning
-regex>=2024.4.28
-
-
 python-dotenv
-
-python-pptx
